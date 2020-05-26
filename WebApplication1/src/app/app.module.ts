@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AlbumComponent } from './album/album.component';
 import { ElevatorComponent } from './elevator/elevator.component';
 import { ClockComponent } from './clock/clock.component';
+import { BirthdayComponent } from './birthday/birthday.component';
 //import $ from 'jquery';
 @NgModule({
   declarations: [
@@ -23,11 +25,13 @@ import { ClockComponent } from './clock/clock.component';
     AlbumComponent,
     ElevatorComponent,
     ClockComponent,
+    BirthdayComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FlexLayoutModule,
     FormsModule,
   ],
   providers: [],

@@ -5,6 +5,84 @@
     text-align: right
 }
 
+.home .w3-dark-grey{
+
+    /* background-color: royalblue !important; */
+    /* background-image: url('/assets/img/family.jpg')!important; */
+    background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  background-size: 100% 100%;
+}
+.w3-dark-grey.background1{
+    background-image: url('/assets/img/background1.jpg')!important;
+    background-size:cover
+}
+.w3-dark-grey.background2{
+    background-image: url('/assets/img/background2.jpg')!important;
+}
+.w3-dark-grey.background3{
+    background-image: url('/assets/img/background2.jpg')!important;
+}
+.w3-dark-grey.background4{
+    background-image: url('/assets/img/background2.jpg')!important;
+}
+.w3-dark-grey.background5{
+    background-image: url('/assets/img/background2.jpg')!important;
+}
+.w3-dark-grey.background6{
+    background-image: url('/assets/img/background2.jpg')!important;
+}
+
+.success{
+    background-image: url('/assets/img/background2.jpg')!important;
+}
+.w3-justify{
+    position: relative;
+    z-index:99;
+}
+.w3-input{
+    direction:RTL;
+}
+/* .w3-button{
+    z-index: -1;
+}
+canvas.particles-js-canvas-el {
+    pointer-events: none;
+} */
+
+.myAlbum {
+    position: relative;
+    left: -170px;
+}
+
+
+.myVideo {
+    position: relative;
+    /* left: 100px; */
+    /* left: 274px; */
+    /* left: -210px; */
+     left: 113px; 
+
+}
+.myVideo3 {
+    position: relative;
+     left: 0px; 
+
+}
+.myVideo4 {
+    position: relative;
+     left: 344px;
+}
+.w3-content{
+   max-width: 600px;
+}
+
+
+
+
+
+
 
 
 

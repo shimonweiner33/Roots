@@ -9,7 +9,7 @@ namespace Roots.Data.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneArea { get; set; }
-        public string PhoneNamber { get; set; }
+        public string PhoneNumber { get; set; }
 
         
     }

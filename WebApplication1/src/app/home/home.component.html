@@ -26,11 +26,16 @@
   }
 </style>
 
-<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+
+<!-- <div style="background-image: url('img_girl.jpg');"></div> -->
+
+
+<body class="w3-light-grey w3-content home" style="max-width:1600px;">
 
   <!-- Sidebar/menu -->
   <nav class="w3-sidebar w3-bar-block w3-white w3-animate-left w3-text-grey w3-collapse w3-top w3-center"
-    style="z-index:3;width:300px;font-weight:bold; background-color:aquamarine !important" id="mySidebar"><br>
+    style="z-index:3;width:170px;font-weight:bold; background-color:aquamarine !important" id="mySidebar"><br>
     <h3 class="w3-padding-64 w3-center"><b>מעבר<br>שאלות</b></h3>
     <h2>ציון - {{score}}</h2>
     <br />
@@ -38,6 +43,10 @@
     <a href="#" onclick="w3_close()" class="w3-bar-item w3-button">שלב החידות הביתיות</a>
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT ME</a>
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
+    <a href="https://photos.google.com/share/AF1QipM3Yx0qTTGG9bl7v8S6siur3tJiBOEiRc4UKeuS4dZ95ocg5RrFVxVMlktrH0kFKQ?key=YXFXYS03dFBUSU90Tl9HUGhwZ1BSc2ZrZWZ1VEJn"
+      target="_blank" onclick="w3_close()" class="w3-bar-item w3-button"
+      *ngIf="allOpen || q13.ResultTrue && !q17.ResultTrue">answer</a>
+
 
   </nav>
 
@@ -52,28 +61,29 @@
     title="close side menu" id="myOverlay"></div>
 
   <!-- !PAGE CONTENT! -->
-  <div class="w3-main" style="margin-left:300px">
+  <div class="w3-main" style="margin-left:170px">
 
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px"></div>
 
 
     <!-- {{dataFromServer|json}} -->
-    <!-- <app-album></app-album> -->
-    <!-- <app-elevator></app-elevator> -->
+
 
 
     <div class="w3-row">
       <div class="w3-third">
-        <!-- <img src="/assets/img/firstPic.jpg" style="width:100%" onclick="onClick(this)" alt="A boy surrounded by beautiful nature"> -->
-        <!-- <video width="400" style="margin-right: auto; margin-left: auto;" autoplay controls>
-          <source src="/assets/img/video/elevator.mp4" type="video/mp4">
-        </video> -->
 
-        <!-- <div style="position: fixed;">
-            <app-clock></app-clock>
-        </div> -->
 
+        <div style="position: fixed;" *ngIf="allOpen || q1.ResultFalse || q1.ResultTrue">
+          <!-- <app-clock></app-clock> -->
+          <app-clock [timePassed]="timePassed" [tryAgain]="tryAgain" (timePassedChange)="timePassed = $event"
+            (onTimeEnd)="onFinish(false)"></app-clock>
+        </div>
+
+        <div fxFlex="50" [hidden]="!(q1.ResultFalse || q1.ResultTrue)">
+          <app-elevator></app-elevator>
+        </div>
       </div>
 
 
@@ -102,357 +112,617 @@
   </div> -->
 
     <!-- Modal for full size images on click-->
-    <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+    <!-- <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
       <span class="w3-button w3-black w3-xlarge w3-display-topright">×</span>
       <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
         <img id="img01" class="w3-image">
         <p id="caption"></p>
       </div>
-    </div>
 
-    <!-- About section -->
-    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32"
-      style="background-color: royalblue !important" id="about">
+
+
+
+
+
+    </div> -->
+
+    <!-- About section    style="background-color: royalblue !important"-->
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 background1" id="about"
+      *ngIf="allOpen || !q1.ResultFalse && !q1.ResultTrue && !finish">
+      <app-birthday
+        *ngIf="allOpen ||( !q1.ResultTrue && !q2.ResultTrue && !q3.ResultTrue && !q4.ResultTrue && !q5.ResultTrue)">
+      </app-birthday>
+
+
       <h1><b>ברוכים הבאים לחידון היומולדת!!!</b></h1>
       <h3 class="w3-center"><b>חלק ראשון - שאלות ידע כללי על שמעון</b></h3>
 
-      <!-- <img src="/w3images/avatar_hat.jpg" alt="Me" class="w3-image w3-padding-32" width="600" height="650"> -->
-      <div class="w3-content w3-justify" style="max-width:600px">
+      <div fxLayout="row">
 
 
+        <!-- <img src="/w3images/avatar_hat.jpg" alt="Me" class="w3-image w3-padding-32" width="600" height="650"> -->
 
-        <!-- *ngIf="q1ResultTrue" -->
-        <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
-          <div class="w3-content" style="max-width:600px">
-            <h3 class="w3-center"><b>שאלה ראשונה</b></h3>
+        <div class="w3-content w3-justify">
 
-            <p class="question" style="text-align: right;">שאלת צבירה. המטרה - לבדוק עד כמה את מכירה את הפרטים של בעלך
-              ומשפחתו ובקשר שלנו בכלל</p>
-            <p style="color: red">שימי לב! יש לך רק ניסיון אחד ללחוץ על שליחת התשובות. ואם תטעי לא תקבלי את כל הנקודות
-            </p>
 
-            <!-- <form action="/action_page.php" target="_blank"> -->
-            <div class="w3-section">
-              <p class="question">מה תעודת הזהות של שמעון</p>
-              <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q1.AnswerText" required>
-              <p style="color: blue" *ngIf="q1.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q1.ResultFalse == true"> תשובה שגויה!! בושהה</p>
+          <!-- *ngIf="allOpen || !q1.ResultFalse && !q1.ResultTrue" -->
+          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+            <div class="w3-content" style="max-width:600px">
+              <h3 class="w3-center"><b>שאלה ראשונה</b></h3>
 
-              <p class="question">מה האימל של שמעון</p>
-              <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q2.AnswerText" required>
-              <p style="color: blue" *ngIf="q2.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q2.ResultFalse == true">תשובה שגויה!! בושהה!</p>
-
-              <p class="question">מה שם בית הספר היסודי ששמעון למד בו</p>
-              <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q3.AnswerText" required>
-              <p style="color: blue" *ngIf="q3.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q3.ResultFalse == true">תשובה שגויה!! מורשה בברכיה איך שכחת??!</p>
-
-              <p class="question">מה שם הכלב הראשון של שמעון בצבא?</p>
-              <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q4.AnswerText" required>
-              <p style="color: blue" *ngIf="q4.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q4.ResultFalse == true">תשובה שגויה!! אינדייייייייייייי ודארף מה לא ברורר?!?!
+              <p class="question" style="text-align: right;">שאלת צבירה. המטרה - לבדוק עד כמה את מכירה את הפרטים של בעלך
+                ומשפחתו ובקשר שלנו בכלל</p>
+              <p style="color: red">שימי לב! יש לך רק ניסיון אחד ללחוץ על שליחת התשובות. ואם תטעי לא תקבלי את כל הנקודות
               </p>
 
-              <p class="question">מה שם הכלב השני של שמעון בצבא?</p>
-              <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q5.AnswerText" required>
-              <p style="color: blue" *ngIf="q5.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q5.ResultFalse == true">תשובה שגויה!! את בחיים לא תזכרי את זה?!?!
-                אינדייייייייייייי ודארף מה לא ברורר?!?!</p>
-            </div>
-            <button [disabled]="q1Score > 0" type="submit" (click)="calculateQuestion1();"
-              class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
-            <p style="color: blue" *ngIf="q1Score > 0"> הוספת {{q1Score}} נקודות למשפחת ויינר</p>
-            <p style="color: red"
-              *ngIf="q1.ResultTrue || q2.ResultTrue  || q3.ResultTrue || q4.ResultTrue || q5.ResultTrue">קולולולו את
-              באמת יודעת עלי הכל!</p>
+              <div class="w3-section">
+                <p class="question">מה תעודת הזהות של שמעון</p>
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q1.AnswerText" required>
+                <p style="color: blue" *ngIf="allOpen || q1.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q1.ResultFalse == true"> תשובה שגויה!! בושהה</p>
 
-            <p style="color: red"
-              *ngIf="q1.ResultFalse || q2.ResultFalse || q3.ResultFalse || q4.ResultFalse || q5.ResultFalse">מירוש
-              ציפיתי ממך ל100 אחוז! קחי אוויר.. .</p>
-            <!-- </form> -->
+                <p class="question">מה האימל של שמעון</p>
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q2.AnswerText" required>
+                <p style="color: blue" *ngIf="allOpen || q2.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q2.ResultFalse == true">תשובה שגויה!! בושהה!</p>
+
+                <p class="question">מה שם בית הספר היסודי ששמעון למד בו</p>
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q3.AnswerText" required>
+                <p style="color: blue" *ngIf="allOpen || q3.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q3.ResultFalse == true">תשובה שגויה!! מורשה בברכיה איך שכחת??!
+                </p>
+
+                <p class="question">מה שם הכלב הראשון של שמעון בצבא?</p>
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q4.AnswerText" required>
+                <p style="color: blue" *ngIf="allOpen || q4.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q4.ResultFalse == true">תשובה שגויה!! אינדייייייייייייי ודארף מה
+                  לא
+                  ברורר?!?!
+                </p>
+
+                <p class="question">מה שם הכלב השני של שמעון בצבא?</p>
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q5.AnswerText" required>
+                <p style="color: blue" *ngIf="allOpen || q5.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
+                <p style="color: red" *ngIf="q5.ResultFalse == true">תשובה שגויה!! את בחיים לא תזכרי את זה?!?!
+                  אינדייייייייייייי ודארף מה לא ברורר?!?!</p>
+              </div>
+
+
+              <!-- <a href="https://photos.google.com/share/AF1QipM3Yx0qTTGG9bl7v8S6siur3tJiBOEiRc4UKeuS4dZ95ocg5RrFVxVMlktrH0kFKQ?key=YXFXYS03dFBUSU90Tl9HUGhwZ1BSc2ZrZWZ1VEJn"
+      target="_blank" onclick="w3_close()" class="w3-bar-item w3-button"
+      *ngIf="allOpen || q13.ResultTrue && !q17.ResultTrue">answer</a>
+
+       -->
+              <button [disabled]="q1Score > 0" type="submit" (click)="calculateQuestion1()"   href="https://photos.google.com/share/AF1QipM3Yx0qTTGG9bl7v8S6siur3tJiBOEiRc4UKeuS4dZ95ocg5RrFVxVMlktrH0kFKQ?key=YXFXYS03dFBUSU90Tl9HUGhwZ1BSc2ZrZWZ1VEJn"
+                  target="_blank" class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q1Score > 0"> הוספת {{q1Score}} נקודות למשפחת ויינר</p>
+              <p style="color: red"
+                *ngIf="allOpen || q1.ResultTrue || q2.ResultTrue  || q3.ResultTrue || q4.ResultTrue || q5.ResultTrue">
+                קולולולו את
+                באמת יודעת עלי הכל!</p>
+
+              <p style="color: red"
+                *ngIf="allOpen || q1.ResultFalse || q2.ResultFalse || q3.ResultFalse || q4.ResultFalse || q5.ResultFalse">
+                מירוש
+                ציפיתי ממך ל100 אחוז! קחי אוויר.. .</p>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
 
 
-        <div class="level1" *ngIf="q1.ResultFalse || q1.ResultTrue">
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 background2" id="about"
+      *ngIf="allOpen || (q1.ResultFalse || q1.ResultTrue) && !q17.ResultTrue && !finish">
+      <div fxLayout="row">
+        <div class="w3-content w3-justify">
+          <div class="level1">
 
-          <video width="400" style="margin-right: auto; margin-left: auto;" autoplay controls>
-            <source src="/assets/img/video/elevator.mp4" type="video/mp4">
+
+
+            <!-- <audio id="audio1" autoplay controls>
+              <source src="/assets/audio/Victory1.mp3" type="audio/mp3">
+             
+            </audio>
+          
+          <script type="text/javascript">
+              document.getElementById('audio1').addEventListener("ended",function() {
+                  this.src = "song.php?nocache="+new Date().getTime();
+                  this.play();
+              });
+          </script>
+-->
+            <video class="myVideo" width="400" style="margin-right: auto; margin-left: auto;"
+              *ngIf="allOpen || !q10.ResultTrue" autoplay controls>
+              <source src="/assets/img/video/ido.mp4" type="video/mp4">
+            </video>
+            <audio id="audio1" [hidden]="true" autoplay controls>
+              <source src="/assets/audio/1.m4a" type="audio/mp3">
+            </audio>
+
+            <h3 class="w3-center" style="color: red;"><b> לא נותר לי ברירה... אלא להכניס אותך למעלית הזמן כדי להזכיר
+                לך את כל מה ששכחת</b>
+            </h3>
+
+            <!-- <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3> -->
+
+
+            <h4 class="w3-center" style="color: red;"><b>קומה 1</b></h4>
+
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה ראשונה</b></h4>
+                <p class="question">מירי! את צריכה לערוך אותי</p>
+
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q10.AnswerText" required>
+                </div>
+                <button [disabled]="q10.ResultTrue" type="submit" (click)="insertAnswer(10)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q10.ResultTrue">תשובה נכונה!! הוספת 2 נקודות . חשבתן שהגעתן
+                  לחידון פשוט אהה?? </p>
+                <p style="color: red" *ngIf="allOpen || q10.ResultFalse == true">תשובה שגויה!! בושהה</p>
+
+              </div>
+            </div>
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || q10.ResultTrue">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה שניה</b></h4>
+                <p class="question"> קומה 3 דירה 10</p>
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q11.AnswerText" required>
+                </div>
+                <button [disabled]="q11.ResultTrue" type="submit" (click)="insertAnswer(11)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q11.ResultTrue">תשובה נכונה!! הוספת {{q11.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q11.ResultFalse == true">תשובה שגויה!!</p>
+              </div>
+            </div>
+
+            <app-album class="myAlbum" *ngIf="allOpen || q11.ResultTrue"></app-album>
+            <br />
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || (q11.ResultTrue )">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה שלישית</b></h4>
+                <p class="question"></p>
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q12.AnswerText" required>
+                </div>
+                <button [disabled]="q12.ResultTrue" type="submit" (click)="insertAnswer(12);"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q12.ResultTrue">תשובה נכונה!! הוספת {{q12.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q12.ResultFalse == true">תשובה שגויה!!</p>
+              </div>
+            </div>
+            <video class="myVideo" width="400" style="margin-right: auto; margin-left: auto;" autoplay controls
+              *ngIf="allOpen || (q12.ResultTrue && !q13.ResultTrue)">
+              <source src="/assets/img/video/mazal.mp4" type="video/mp4">
+            </video>
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || q12.ResultTrue">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה רביעית</b></h4>
+                <p class="question">ממי תקבל עומר אהבה ונשיקות?</p>
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q13.AnswerText" required>
+                </div>
+                <button [disabled]="q13.ResultTrue" type="submit" (click)="insertAnswer(13)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q13.ResultTrue">תשובה נכונה!! הוספת {{q13.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q13.ResultFalse == true">תשובה שגויה!!</p>
+              </div>
+            </div>
+            <video class="myVideo" width="400" style="margin-right: auto; margin-left: auto;" autoplay controls
+              *ngIf="allOpen ||  (q13.ResultTrue && !q14.ResultTrue)">
+              <source src="/assets/img/video/nili.mp4" type="video/mp4">
+            </video>
+
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || q13.ResultTrue">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה חמישית</b></h4>
+                <p class="question">איפה היתה אמא שלכם כשצילמה את הסרטון?</p>
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q14.AnswerText" required>
+                </div>
+                <button [disabled]="q14.ResultTrue" type="submit" (click)="insertAnswer(14)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q14.ResultTrue">תשובה נכונה!! הוספת {{q14.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q14.ResultFalse == true">תשובה שגויה!!</p>
+              </div>
+            </div>
+
+
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || q14.ResultTrue">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה שישית</b></h4>
+                <p class="question">מי מופיע בתמונה אחרונה משמאל</p>
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q17.AnswerText" required>
+                </div>
+                <button [disabled]="q17.ResultTrue" type="submit" (click)="insertAnswer(17)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q17.ResultTrue">תשובה נכונה!! הוספת {{q17.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q17.ResultFalse == true">תשובה שגויה!!</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 level2 background3" id="about"
+      *ngIf="allOpen || q17.ResultTrue && !q23.ResultTrue  && !finish">
+      <div fxLayout="row">
+        <div class="w3-content w3-justify">
+
+          <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;"
+            *ngIf="allOpen || !q20.ResultTrue" autoplay controls>
+            <source src="/assets/img/video/lila.mp4" type="video/mp4">
           </video>
-
-
-          <h3 class="w3-center"><b> לא נותר לי ברירה... אלא להכניס אותך למעלית הזמן כדי להזכיר לך את כל מה ששכחת</b>
+          <audio id="audio1" autoplay controls [hidden]="true" *ngIf="allOpen || !q20.ResultTrue">
+            <source src="/assets/audio/2.m4a" type="audio/mp3">
+          </audio>
+          <h3 class="w3-center" style="color: yellow;"><b> כל הכבוד! עלית קומה</b>
           </h3>
 
-          <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3>
+          <!-- <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3> -->
 
 
-          <h4 class="w3-center"><b>קומה 1</b></h4>
+          <h4 class="w3-center" style="color: yellow;"><b>קומה 2</b></h4>
 
           <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
             <div class="w3-content" style="max-width:600px">
               <h4 class="w3-center"><b>שאלה ראשונה</b></h4>
-              <!-- <p class="question">מה אסור לשים מעל 2.5 מטר? (גבולות גזרה - הממ"ד)</p> -->
-              <!-- <p class="question">כנרת, אם תלך</p> -->
-              <p class="question">יש 8 כאלה במטבח</p>
-
-              <!-- <form action="/action_page.php" target="_blank"> -->
-              <div class="w3-section">
-                <!-- <label>Name</label> -->
-                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q10.AnswerText" required>
-              </div>
-              <button [disabled]="q10.ResultTrue" type="submit" (click)="insertAnswer(10)"
-                class="w3-button w3-block w3-black w3-margin-bottom">Send Message</button>
-              <p style="color: blue" *ngIf="q10.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q10.ResultFalse == true">תשובה שגויה!! בושהה</p>
-
-              <!-- </form> -->
-            </div>
-          </div>
-          <!-- *ngIf="q2ResultTrue" -->
-          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
-            <div class="w3-content" style="max-width:600px">
-              <h4 class="w3-center"><b>שאלה שניה</b></h4>
-              <p class="question">מילה מחוברת ליד עיגול? (גבולות גזרה - הממ"ד)</p>
-              <!-- <form action="/action_page.php" target="_blank"> -->
-              <div class="w3-section">
-                <!-- <label>Name</label> -->
-                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q11.AnswerText" required>
-              </div>
-              <button type="submit" (click)="insertAnswer(11)" class="w3-button w3-block w3-black w3-margin-bottom">Send
-                Message</button>
-              <p style="color: blue" *ngIf="q11.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q11.ResultFalse == true">תשובה שגויה!!</p>
-              <!-- </form> -->
-            </div>
-          </div>
-
-          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
-            <div class="w3-content" style="max-width:600px">
-              <h4 class="w3-center"><b>שאלה שניה</b></h4>
-              <p class="question">IMPORTANT</p>
-              <!-- <form action="/action_page.php" target="_blank"> -->
-              <div class="w3-section">
-                <!-- <label>Name</label> -->
-                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q12.AnswerText" required>
-              </div>
-              <button type="submit" (click)="insertAnswer(12)" class="w3-button w3-block w3-black w3-margin-bottom">Send
-                Message</button>
-              <p style="color: blue" *ngIf="q12.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q12.ResultFalse == true">תשובה שגויה!!</p>
-              <!-- </form> -->
-            </div>
-          </div>
-        </div>
-
-
-
-
-        <div class="level2" *ngIf="q1.ResultFalse || q1.ResultTrue">
-          <!-- lila -->
-          <video width="400" style="margin-right: auto; margin-left: auto;" autoplay controls>
-            <source src="/assets/img/video/elevator.mp4" type="video/mp4">
-          </video>
-
-          <h3 class="w3-center"><b> כל הכבוד! עלית קומה</b>
-          </h3>
-
-          <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3>
-
-
-          <h4 class="w3-center"><b>קומה 2</b></h4>
-
-          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
-            <div class="w3-content" style="max-width:600px">
-              <h4 class="w3-center"><b>שאלה ראשונה</b></h4>
-              <!-- <p class="question">מה אסור לשים מעל 2.5 מטר? (גבולות גזרה - הממ"ד)</p> -->
               <p class="question">כנרת, אם תלך</p>
 
-              <!-- <form action="/action_page.php" target="_blank"> -->
               <div class="w3-section">
-                <!-- <label>Name</label> -->
                 <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q20.AnswerText" required>
               </div>
               <button [disabled]="q20.ResultTrue" type="submit" (click)="insertAnswer(20)"
-                class="w3-button w3-block w3-black w3-margin-bottom">Send Message</button>
-              <p style="color: blue" *ngIf="q20.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q20.ResultFalse == true">תשובה שגויה!! בושהה</p>
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q20.ResultTrue">תשובה נכונה!! הוספת {{q20.Score}} נקודות למשפחת
+                ויינר</p>
+              <p style="color: red" *ngIf="allOpen || q20.ResultFalse == true">תשובה שגויה!! בושהה</p>
 
-              <!-- </form> -->
             </div>
           </div>
-          <!-- *ngIf="q2ResultTrue" -->
-          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+            *ngIf="allOpen || q20.ResultTrue">
             <div class="w3-content" style="max-width:600px">
               <h4 class="w3-center"><b>שאלה שניה</b></h4>
-              <p class="question">הגליל, פרג, בוקר</p>
-              <!-- <form action="/action_page.php" target="_blank"> -->
+              <p class="question">הרב צחי, שן, שותפה לפשע</p>
               <div class="w3-section">
-                <!-- <label>Name</label> -->
                 <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q21.AnswerText" required>
               </div>
-              <button type="submit" (click)="insertAnswer(21)" class="w3-button w3-block w3-black w3-margin-bottom">Send
-                Message</button>
-              <p style="color: blue" *ngIf="q21.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q21.ResultFalse == true">תשובה שגויה!!</p>
-              <!-- </form> -->
+              <button type="submit" [disabled]="q21.ResultTrue" (click)="insertAnswer(21)"
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q21.ResultTrue">תשובה נכונה!! הוספת {{q21.Score}} נקודות למשפחת
+                ויינר</p>
+              <p style="color: red" *ngIf="allOpen || q21.ResultFalse == true">תשובה שגויה!!</p>
             </div>
           </div>
-
-          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+          <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;"
+            *ngIf="allOpen || (q21.ResultTrue && !q22.ResultTrue) " autoplay controls>
+            <source src="/assets/img/video/noa.mp4" type="video/mp4">
+          </video>
+          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+            *ngIf="allOpen || (q21.ResultTrue  && !q22.ResultTrue)">
             <div class="w3-content" style="max-width:600px">
               <h4 class="w3-center"><b>שאלה שלישית</b></h4>
-              <p class="question">פיצה כפרס ניחומים</p>
+              <p class="question"></p>
               <!-- <form action="/action_page.php" target="_blank"> -->
               <div class="w3-section">
                 <!-- <label>Name</label> -->
                 <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q22.AnswerText" required>
               </div>
-              <button type="submit" (click)="insertAnswer(22)" class="w3-button w3-block w3-black w3-margin-bottom">Send
-                Message</button>
-              <p style="color: blue" *ngIf="q22.ResultTrue">תשובה נכונה!! הוספת 2 נקודות למשפחת ויינר</p>
-              <p style="color: red" *ngIf="q22.ResultFalse == true">תשובה שגויה!!</p>
+              <button type="submit" [disabled]="q22.ResultTrue" (click)="insertAnswer(22)"
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q22.ResultTrue">תשובה נכונה!! הוספת {{q22.Score}} נקודות למשפחת
+                ויינר</p>
+              <p style="color: red" *ngIf="allOpen || q22.ResultFalse == true">תשובה שגויה!!</p>
               <!-- </form> -->
             </div>
           </div>
-        </div>
 
-
-
-
-
-        <hr class="w3-opacity">
-        <h4 class="w3-padding-16">Technical Skills</h4>
-        <p class="w3-wide">Photography</p>
-        <div class="w3-white">
-          <div class="w3-container w3-padding-small w3-center w3-grey" style="width:95%">95%</div>
-        </div>
-        <p class="w3-wide">Web Design</p>
-        <div class="w3-white">
-          <div class="w3-container w3-padding-small w3-center w3-grey" style="width:85%">85%</div>
-        </div>
-        <p class="w3-wide">Photoshop</p>
-        <div class="w3-white">
-          <div class="w3-container w3-padding-small w3-center w3-grey" style="width:80%">80%</div>
-        </div>
-        <p><button class="w3-button w3-light-grey w3-padding-large w3-margin-top w3-margin-bottom">Download
-            Resume</button></p>
-        <hr class="w3-opacity">
-
-        <h4 class="w3-padding-16">How much I charge</h4>
-        <div class="w3-row-padding" style="margin:0 -16px">
-          <div class="w3-half w3-margin-bottom">
-            <ul class="w3-ul w3-white w3-center w3-opacity w3-hover-opacity-off">
-              <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
-              <li class="w3-padding-16">Web Design</li>
-              <li class="w3-padding-16">Photography</li>
-              <li class="w3-padding-16">5GB Storage</li>
-              <li class="w3-padding-16">Mail Support</li>
-              <li class="w3-padding-16">
-                <h2>$ 10</h2>
-                <span class="w3-opacity">per month</span>
-              </li>
-              <li class="w3-light-grey w3-padding-24">
-                <button class="w3-button w3-white w3-padding-large">Sign Up</button>
-              </li>
-            </ul>
+          <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;"
+            *ngIf="allOpen || (q22.ResultTrue && !q23.ResultTrue) " autoplay controls>
+            <source src="/assets/img/video/ida.mp4" type="video/mp4">
+          </video>
+          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+            *ngIf="allOpen || (q22.ResultTrue  && !q23.ResultTrue)">
+            <div class="w3-content" style="max-width:600px">
+              <h4 class="w3-center"><b>שאלה שלישית</b></h4>
+              <p class="question"></p>
+              <!-- <form action="/action_page.php" target="_blank"> -->
+              <div class="w3-section">
+                <!-- <label>Name</label> -->
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q23.AnswerText" required>
+              </div>
+              <button type="submit" [disabled]="q23.ResultTrue" (click)="insertAnswer(23)"
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q23.ResultTrue">תשובה נכונה!! הוספת {{q23.Score}} נקודות למשפחת
+                ויינר</p>
+              <p style="color: red" *ngIf="allOpen || q23.ResultFalse == true">תשובה שגויה!!</p>
+              <!-- </form> -->
+            </div>
           </div>
 
-          <div class="w3-half">
-            <ul class="w3-ul w3-white w3-center w3-opacity w3-hover-opacity-off">
-              <li class="w3-black w3-xlarge w3-padding-32">Pro</li>
-              <li class="w3-padding-16">Web Design</li>
-              <li class="w3-padding-16">Photography</li>
-              <li class="w3-padding-16">50GB Storage</li>
-              <li class="w3-padding-16">Endless Support</li>
-              <li class="w3-padding-16">
-                <h2>$ 25</h2>
-                <span class="w3-opacity">per month</span>
-              </li>
-              <li class="w3-light-grey w3-padding-24">
-                <button class="w3-button w3-white w3-padding-large">Sign Up</button>
-              </li>
-            </ul>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 level3 background4" id="about"
+      *ngIf="allOpen || q23.ResultTrue && !q30.ResultTrue && !finish">
+      <div fxLayout="row">
+        <div class="w3-content w3-justify">
+          <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;" autoplay controls
+            *ngIf="allOpen || q23.ResultTrue">
+            <source src="/assets/img/video/michal.mp4" type="video/mp4">
+          </video>
+          <audio id="audio1" autoplay controls [hidden]="true" *ngIf="allOpen || q23.ResultTrue">
+            <source src="/assets/audio/3.m4a" type="audio/mp3">
+          </audio>
+
+
+          <h3 class="w3-center"><b> כל הכבוד! עלית עוד קומה</b>
+          </h3>
+
+          <!-- <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3> -->
+          <h4 class="w3-center"><b>קומה 3</b></h4>
+
+          <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+            <div class="w3-content" style="max-width:600px">
+              <h4 class="w3-center"><b>שאלה ראשונה</b></h4>
+              <p class="question">סיטואציה = מקום</p>
+
+              <div class="w3-section">
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q30.AnswerText" required>
+              </div>
+              <button [disabled]="q30.ResultTrue" type="submit" (click)="insertAnswer(30)"
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q30.ResultTrue">תשובה נכונה!! הוספת {{q30.Score}} נקודות למשפחת
+                ויינר</p>
+              <p style="color: red" *ngIf="allOpen || q30.ResultFalse == true">תשובה שגויה!! בושהה</p>
+            </div>
+          </div>
+
+          <!-- <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+            <div class="w3-content" style="max-width:600px">
+              <h4 class="w3-center"><b>שאלה שניה</b></h4>
+              <p class="question">כנרת, אם תלך</p>
+
+              <div class="w3-section">
+                <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q31.AnswerText" required>
+              </div>
+              <button [disabled]="q31.ResultTrue" type="submit" (click)="insertAnswer(31)"
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+              <p style="color: blue" *ngIf="allOpen || q31.ResultTrue">תשובה נכונה!! הוספת {{q31.Score}} נקודות למשפחת
+                ויינר</p>
+              <p style="color: red" *ngIf="allOpen || q31.ResultFalse == true">תשובה שגויה!! בושהה</p>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 level4 background5" id="about"
+      *ngIf="allOpen || q30.ResultTrue && !q45.ResultTrue  && !finish ">
+      <div fxLayout="row">
+        <div class="w3-content w3-justify">
+
+          <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;" autoplay controls
+            *ngIf="allOpen || (q30.ResultTrue && !q40.ResultTrue)">
+            <source src="/assets/img/video/karin.mp4" type="video/mp4">
+          </video>
+          <audio id="audio1" autoplay controls [hidden]="true" *ngIf="allOpen || (q30.ResultTrue && !q40.ResultTrue)">
+            <source src="/assets/audio/4.m4a" type="audio/mp3">
+          </audio>
+          <div class="level4" *ngIf="allOpen || q30.ResultTrue">
+            <!-- lila -->
+
+
+            <h3 class="w3-center"><b> כל הכבוד! עלית עוד קומה</b>
+            </h3>
+
+            <!-- <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3> -->
+            <h4 class="w3-center"><b>קומה 4</b></h4>
+
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה ראשונה</b></h4>
+                <p class="question">לקח אותי השאיר אותך</p>
+
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q40.AnswerText" required>
+                </div>
+                <button [disabled]="q40.ResultTrue" type="submit" (click)="insertAnswer(40)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q40.ResultTrue">תשובה נכונה!! הוספת {{q40.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q40.ResultFalse == true">תשובה שגויה!! בושהה</p>
+              </div>
+            </div>
+
+            <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;" autoplay controls
+              *ngIf="allOpen || q40.ResultTrue">
+              <source src="/assets/img/video/yarden.mp4" type="video/mp4">
+            </video>
+
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || q40.ResultTrue">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה שניה</b></h4>
+                <p class="question"></p>
+
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q41.AnswerText" required>
+                </div>
+                <button [disabled]="q41.ResultTrue" type="submit" (click)="insertAnswer(41);"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q41.ResultTrue">תשובה נכונה!! הוספת {{q41.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q41.ResultFalse == true">תשובה שגויה!! בושהה</p>
+              </div>
+            </div>
+
+            <video class="myVideo3" width="400" style="margin-right: auto; margin-left: auto;" autoplay controls
+              *ngIf="allOpen || q41.ResultTrue">
+              <source src="/assets/img/video/nir.mp4" type="video/mp4">
+            </video>
+
+            <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact"
+              *ngIf="allOpen || q41.ResultTrue">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה שלישית</b></h4>
+                <p class="question"></p>
+
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q45.AnswerText" required>
+                </div>
+                <button [disabled]="q45.ResultTrue" type="submit" (click)="insertAnswer(45); onFinish(true)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q45.ResultTrue">תשובה נכונה!! הוספת {{q45.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q45.ResultFalse == true">תשובה שגויה!! בושהה</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div *ngIf="allOpen || (success && finish)">
+      <app-birthday *ngIf="allOpen || (success && finish)"></app-birthday>
+
+      <audio id="audio1" *ngIf="allOpen || (success && finish)" autoplay controls>
+        <source src="/assets/audio/Victory1.mp3" type="audio/mp3">
+      </audio>
+
+    </div>
+
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 level4 background5" id="about"
+      *ngIf="allOpen || finish">
+      <div fxLayout="row">
+        <div class="w3-content w3-justify">
+
+          <video *ngIf="allOpen || (success && finish)" class="myVideo3" width="400"
+            style="margin-right: auto; margin-left: auto;" controls>
+            <source src="/assets/img/video/finish.mp4" type="video/mp4">
+          </video>
+
+
+          <div *ngIf="!success">
+            נגמר הזמןןןןן! חכי לשנה הבאה
+            סתם :) רוצה עוד זמן? תתחייבו ליום שרות
+            <div class="w3-section">
+              <input class="w3-input w3-border" [(ngModel)]="tryAgainAnswer.AnswerText" required>
+            </div>
+            <button [disabled]="tryAgainAnswer.ResultTrue" type="submit" (click)="onTryAgain()"
+              class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+          </div>
+
+
+          <div *ngIf="allOpen || success" style="position: relative; left: 187px;">
+
+            <!-- [hidden]="true" -->
+            <h1>ברוכים הבאים להווה!!</h1>
+
+            <h2>הרווחת {{score}} נקודות!</h2>
+            <h2>לקח לך {{calculateTimePassed()}}</h2>
+          </div>
+
+
+
+
+          <div class="level4" *ngIf="allOpen">
+            <!-- lila -->
+
+
+            <!-- <h3 class="w3-center"><b> כל הכבוד! עלית עוד קומה</b> </h3>-->
+
+
+            <!-- <h3 class="w3-center"><b> על מנת להתקדם תיהי חייבת לבדוק שאת זוכרת מה קורה אצלך בבית</b></h3> -->
+            <h4 class="w3-center"><b>ברוכים הבאים להווה!!</b></h4>
+
+            <!-- <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+              <div class="w3-content" style="max-width:600px">
+                <h4 class="w3-center"><b>שאלה ראשונה</b></h4>
+                <p class="question">לקח אותי השאיר אותך</p>
+
+                <div class="w3-section">
+                  <input class="w3-input w3-border" type="text" name="Name" [(ngModel)]="q40.AnswerText" required>
+                </div>
+                <button [disabled]="q40.ResultTrue" type="submit" (click)="insertAnswer(40)"
+                  class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+                <p style="color: blue" *ngIf="allOpen || q40.ResultTrue">תשובה נכונה!! הוספת {{q40.Score}} נקודות למשפחת
+                  ויינר</p>
+                <p style="color: red" *ngIf="allOpen || q40.ResultFalse == true">תשובה שגויה!! בושהה</p>
+              </div>
+            </div> -->
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="w3-container w3-dark-grey w3-center w3-text-light-grey w3-padding-32 level4 background6" id="about"
+      *ngIf="allOpen || !q45.ResultTrue">
+      <div fxLayout="row">
+        <div class="w3-content w3-justify">
+
+          <div *ngIf="allOpen || finish" style="position: relative; left: 187px;">
+            <div *ngIf="!success">
+              נגמר הזמןןןןן! חכי לשנה הבאה
+              סתם :) רוצה עוד זמן? תתחייבו ליום שרות
+              <div class="w3-section">
+                <input class="w3-input w3-border" [(ngModel)]="tryAgainAnswer.AnswerText" required>
+              </div>
+              <button [disabled]="tryAgainAnswer.ResultTrue" type="submit" (click)="onTryAgain()"
+                class="w3-button w3-block w3-black w3-margin-bottom">שליחת תשובה</button>
+            </div>
+
+
+
+            <div class="success" *ngIf="success">
+              <app-birthday></app-birthday>
+              <!-- [hidden]="true" -->
+              <audio id="audio1" autoplay controls>
+                <source src="/assets/audio/Victory1.mp3" type="audio/mp3">
+              </audio>
+              <p>ברכותי!! הזיכרון חזר אליך :)</p>
+              <p>הרווחת {{score}} נקודות!</p>
+              <p>לקח לך {{calculateTimePassed()}}</p>
+              <p>לכו למחסן לקבל את הפרס</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Contact section -->
-    <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
-      <div class="w3-content" style="max-width:600px">
-        <h4 class="w3-center"><b>Contact Me</b></h4>
-        <p>Do you want me to photograph you? Fill out the form and fill me in with the details :) I love meeting new
-          people!</p>
-        <form action="/action_page.php" target="_blank">
-          <div class="w3-section">
-            <label>Name</label>
-            <input class="w3-input w3-border" type="text" name="Name" required>
-          </div>
-          <div class="w3-section">
-            <label>Email</label>
-            <input class="w3-input w3-border" type="text" name="Email" required>
-          </div>
-          <div class="w3-section">
-            <label>Message</label>
-            <input class="w3-input w3-border" type="text" name="Message" required>
-          </div>
-          <button type="submit" class="w3-button w3-block w3-black w3-margin-bottom">Send Message</button>
-        </form>
-      </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="w3-container w3-padding-32 w3-grey">
-      <div class="w3-row-padding">
-        <div class="w3-third">
-          <h3>INFO</h3>
-          <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue
-            gravida diam non fringilla.</p>
-        </div>
-
-        <div class="w3-third">
-          <h3>BLOG POSTS</h3>
-          <ul class="w3-ul">
-            <li class="w3-padding-16 w3-hover-black">
-              <img src="https://drive.google.com/open?id=1yQV1TSmAXgQBlhpylKzxxIXRq80k_hYR"
-                class="w3-left w3-margin-right" style="width:50px">
-              <span class="w3-large">Lorem</span><br>
-              <span>Sed mattis nunc</span>
-            </li>
-            <li class="w3-padding-16 w3-hover-black">
-              <!-- <img src="/w3images/gondol.jpg" class="w3-left w3-margin-right" style="width:50px"> -->
-              <span class="w3-large">Ipsum</span><br>
-              <span>Praes tinci sed</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="w3-third">
-          <h3>POPULAR TAGS</h3>
-          <p>
-            <span class="w3-tag w3-black w3-margin-bottom">Travel</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New York</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">London</span>
-            <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">IKEA</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">NORWAY</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">DIY</span>
-            <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ideas</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Baby</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Family</span>
-            <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">News</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Clothing</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Shopping</span>
-            <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Sports</span> <span
-              class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Games</span>
-          </p>
-        </div>
-      </div>
-    </footer>
-
-    <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp"
-        title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
+    <div class="w3-black w3-center w3-padding-24">Created By -- Shimon Weiner <a href="" title="W3.CSS" target="_blank"
+        class="w3-hover-opacity">WEINER FAMILY</a></div>
 
     <!-- End page content -->
   </div>
@@ -478,6 +748,10 @@
     }
 
   </script>
+
+
+
+
 
 
 </body>

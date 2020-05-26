@@ -25,7 +25,7 @@ namespace Roots.Data.Repository
             {
                 using (IDbConnection conn = Connection)
                 {
-                    var sQuery = @"SELECT Id, FirstName, LastName, PhoneArea, PhoneNamber FROM People WHERE Id = @ID";
+                    var sQuery = @"SELECT Id, FirstName, LastName, PhoneArea, PhoneNumber FROM People WHERE Id = @ID";
 
                     conn.Open();
                     return (await conn.QueryAsync<People>(sQuery, new
